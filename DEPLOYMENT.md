@@ -27,6 +27,8 @@ Agrega esta variable de entorno en Render:
 NEXT_PUBLIC_API_BASE_URL=https://lokay-share-api.onrender.com
 ```
 
+**Importante**: Esta variable debe estar configurada en la sección **Environment** de Render. El build automáticamente la usará tanto en tiempo de build como en runtime.
+
 #### 3. Configuración avanzada (opcional pero recomendada)
 
 - **Health Check Path**: `/`
@@ -59,7 +61,8 @@ La aplicación estará disponible en `http://localhost:3000`
 
 ```bash
 # Construir la imagen
-docker build -t lokay-share-frontend .
+docker build -t lokay-share-frontend \
+  --build-arg NEXT_PUBLIC_API_BASE_URL=https://lokay-share-api.onrender.com .
 
 # Ejecutar el contenedor
 docker run -p 3000:3000 \

@@ -19,6 +19,10 @@ COPY . .
 # Variables de entorno necesarias para el build
 ENV NEXT_TELEMETRY_DISABLED=1
 
+# ARG para recibir la URL de la API durante el build
+ARG NEXT_PUBLIC_API_BASE_URL
+ENV NEXT_PUBLIC_API_BASE_URL=${NEXT_PUBLIC_API_BASE_URL}
+
 # Build de la aplicación
 RUN corepack enable pnpm && pnpm run build
 
