@@ -8,13 +8,11 @@ import {
   Star,
   ArrowLeft,
   ExternalLink,
-  Heart,
-  MessageCircle,
 } from "lucide-react";
 import Link from "next/link";
-import Image from "next/image";
 import { notFound } from "next/navigation";
 import { ReviewFormClient } from "./review-form-client";
+import { PublicacionesInteractivas } from "./publicaciones-interactivas";
 
 type PageProps = {
   params: Promise<{
@@ -171,87 +169,10 @@ export default async function LocalDetailPage({ params }: PageProps) {
             </span>
           </div>
 
-          <div className="space-y-4">
-            {local.publicaciones.map((publicacion) => (
-              <Card key={publicacion._id}>
-                <CardContent className="pt-6 space-y-4">
-                  {/* Cabecera de publicación con fecha */}
-                  <div className="flex justify-between items-start gap-4">
-                    <p className="text-sm text-zinc-900 dark:text-white whitespace-pre-wrap flex-1">
-                      {publicacion.texto}
-                    </p>
-                    <span className="text-xs text-zinc-500 dark:text-zinc-400 shrink-0">
-                      {formatDate(publicacion.fecha)}
-                    </span>
-                  </div>
-
-                  {/* Imagen de la publicación */}
-                  {publicacion.url_imagen && (
-                    <div className="rounded-lg overflow-hidden relative w-full aspect-video bg-zinc-100 dark:bg-zinc-800">
-                      <Image
-                        src={publicacion.url_imagen}
-                        alt="Imagen de publicación"
-                        fill
-                        className="object-cover"
-                        sizes="(max-width: 768px) 100vw, 800px"
-                      />
-                    </div>
-                  )}
-
-                  {/* Estadísticas de interacción */}
-                  <div className="flex items-center gap-6 pt-2 border-t">
-                    <div className="flex items-center gap-2 text-zinc-600 dark:text-zinc-400">
-                      <Heart className="h-4 w-4" />
-                      <span className="text-sm font-medium">{publicacion.likes}</span>
-                      <span className="text-xs">
-                        {publicacion.likes === 1 ? "like" : "likes"}
-                      </span>
-                    </div>
-                    <div className="flex items-center gap-2 text-zinc-600 dark:text-zinc-400">
-                      <MessageCircle className="h-4 w-4" />
-                      <span className="text-sm font-medium">
-                        {publicacion.comentarios.length}
-                      </span>
-                      <span className="text-xs">
-                        {publicacion.comentarios.length === 1
-                          ? "comentario"
-                          : "comentarios"}
-                      </span>
-                    </div>
-                  </div>
-
-                  {/* Sección de comentarios */}
-                  {publicacion.comentarios.length > 0 && (
-                    <div className="space-y-3 pt-3 border-t">
-                      <p className="text-xs font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wide">
-                        Comentarios
-                      </p>
-                      <div className="space-y-3">
-                        {publicacion.comentarios.map((comentario) => (
-                          <div
-                            key={comentario._id}
-                            className="bg-zinc-50 dark:bg-zinc-900 rounded-lg p-3"
-                          >
-                            <div className="flex justify-between items-start gap-2 mb-1">
-                              <p className="text-sm font-semibold text-zinc-900 dark:text-white">
-                                {comentario.usuario_nombre}
-                              </p>
-                              <span className="text-xs text-zinc-500 dark:text-zinc-400 shrink-0">
-                                {formatDate(comentario.fecha)}
-                              </span>
-                            </div>
-                            <p className="text-sm text-zinc-700 dark:text-zinc-300">
-                              {comentario.texto}
-                            </p>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-                </CardContent>
-              </Card>
-            ))}
-          </div>
+          <PublicacionesInteractivas
+            publicaciones={local.publicaciones}
+            localId={local._id}
+          />
         </div>
       )}
 
